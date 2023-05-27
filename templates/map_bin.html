@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>지도_쓰레기통</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style_map.css') }}">
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c8628fe2f5e5b695725e9c27a136c5e"></script>
-  <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/trash.js') }}"></script>
+{% extends 'base.html' %}
 
-</head>
-<body>
-  <div id="map"></div>
-</body>
-</html>
+{% block title %}
+Map - Trash
+{% endblock %}
+
+{% block content %}
+
+<div id="map" ></div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style_map.css') }}">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7c8628fe2f5e5b695725e9c27a136c5e"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+
+
+<script src="{{ url_for('static', filename='js/map_bin.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bin.js') }}"></script>
+
+{% endblock %}

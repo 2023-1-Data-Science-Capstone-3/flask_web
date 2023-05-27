@@ -1,6 +1,8 @@
 var markers = []; // 마커들을 담을 배열
 var infowindows = []; // 정보창들을 담을 배열
+var overlays = []; // 오버레이들을 담을 배열
 var activeInfowindow = null; // 현재 열린 정보창
+
 
 function initMap() {
   var mapContainer = document.getElementById('map');
@@ -14,30 +16,65 @@ function initMap() {
   // 기존의 마커들 생성
   createMarkers(map);
 
+
   // 받아온 마커 데이터를 처리하는 함수
   function handleMarkerData() {
+    var markerImage = new kakao.maps.MarkerImage(
+      'static/image/greenO.png',
+      new kakao.maps.Size(30, 30) // 마커 이미지 크기
+    );
     var marker = new kakao.maps.Marker({
       position: new kakao.maps.LatLng(lat, lng),
-      map: map
+      map: map,
+      image: markerImage
     });
 
+    // ...
 
-  
+    var petCanTotal = petCount + canCount; // 페트병과 캔 개수의 총합
+
+    // 마커에 총 개수를 표시할 커스텀 오버레이 생성
+    var customOverlay = document.createElement('div');
+    customOverlay.className = 'marker-overlay';
+    customOverlay.innerText = petCanTotal;
+
+    var overlay = new kakao.maps.CustomOverlay({
+      position: new kakao.maps.LatLng(lat, lng),
+      content: customOverlay,
+      yAnchor: 1.1,
+    });
+
+    // 추가된 부분: overlay를 지도에 추가
+    overlay.setMap(map);
 
     var content =
-      '<div>' +
-      address +
-      '</div>' +
-      '<div>캔 개수: ' +
-      canCount +
-      '</div>' +
-      '<div>페트병 개수: ' +
-      petCount +
-      '</div>';
+    '<div class="info-window">' +
+    '<div class="address">' +
+    '<span style="font-weight:bold; font-size:16px;">' + address + '</span>' +
+    '</div>' +
+    '<div class="count">' +
+    '페트병 : <span id="petCount" style="color:green; font-weight:bold;">' +
+    petCount +
+    '</span><br>' +
+    '캔 : <span id="canCount" style="color:green; font-weight:bold;">' +
+    canCount +
+    '</span>' +
+    '</div>' +
+    '<div class="more-info">' +
+    '<button onclick="showDetails()">자세히 보기</button>' +
+    '</div>' +
+    '</div>';
   
+
     var infowindow = new kakao.maps.InfoWindow({
       content: content
     });
+
+
+
+
+
+
 
     kakao.maps.event.addListener(marker, 'click', function () {
       if (activeInfowindow === infowindow) {
@@ -52,8 +89,11 @@ function initMap() {
       }
     });
 
+
+    
     markers.push(marker);
     infowindows.push(infowindow);
+    overlays.push(overlay);
   }
 
   // 호출된 함수 실행
@@ -65,7 +105,6 @@ function initMap() {
 
 function createMarkers(map) {
   var positions = [
-    
     {
       latlng: new kakao.maps.LatLng(37.484850, 126.886577),
       content: {
@@ -77,9 +116,9 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.495065, 126.858047),
+      latlng: new kakao.maps.LatLng(37.493655, 126.864313),
       content: {
-        address: "서울특별시 구로구 개봉동 416-146",
+        address: "서울특별시 구로구 개봉동 403-111",
         count: {
           pet: 1,
           can: 5,
@@ -87,9 +126,9 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.500241, 126.851139),
+      latlng: new kakao.maps.LatLng(37.501096, 126.859564),
       content: {
-        address: "서울특별시 구로구 개봉동 134-8",
+        address: "서울특별시 구로구 개봉동 456-8",
         count: {
           pet: 3,
           can: 0,
@@ -97,7 +136,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.480161, 126.888695),
+      latlng: new kakao.maps.LatLng(37.478465, 126.887329),
       content: {
         address: "서울특별시 구로구 가리봉동 125-16",
         count: {
@@ -107,7 +146,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.482176, 126.886722),
+      latlng: new kakao.maps.LatLng(37.485243, 126.887874),
       content: {
         address: "서울특별시 구로구 가리봉동 121-44",
         count: {
@@ -117,7 +156,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.484850, 126.886577),
+      latlng: new kakao.maps.LatLng(37.485816, 126.891048),
       content: {
         address: "서울특별시 구로구 가리봉동 89-99",
         count: {
@@ -127,7 +166,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.501568, 126.847162),
+      latlng: new kakao.maps.LatLng(37.502734, 126.849217),
       content: {
         address: "서울특별시 구로구 개봉동 492",
         count: {
@@ -137,7 +176,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.501279, 126.845253),
+      latlng: new kakao.maps.LatLng(37.501554, 126.845711),
       content: {
         address: "서울특별시 구로구 개봉동 63-35",
         count: {
@@ -147,7 +186,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.501074, 126.843823),
+      latlng: new kakao.maps.LatLng(37.500891, 126.844397),
       content: {
         address: "서울특별시 구로구 개봉동 60-101",
         count: {
@@ -157,7 +196,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.499057, 126.851719),
+      latlng: new kakao.maps.LatLng(37.498926, 126.853445),
       content: {
         address: "서울특별시 구로구 개봉동 139-61",
         count: {
@@ -167,7 +206,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.497599, 126.855601),
+      latlng: new kakao.maps.LatLng(37.499917, 126.853949),
       content: {
         address: "서울특별시 구로구 개봉동 156-5",
         count: {
@@ -177,7 +216,7 @@ function createMarkers(map) {
       },
     },
     {
-      latlng: new kakao.maps.LatLng(37.501568, 126.847162),
+      latlng: new kakao.maps.LatLng(37.498065, 126.860364),
       content: {
         address: "서울특별시 구로구 개봉동 492",
         count: {
@@ -188,14 +227,43 @@ function createMarkers(map) {
     },
   ];
 
+  
 
  // 기존의 마커들 생성
   for (var i = 0; i < positions.length; i++) {
     var position = positions[i];
+
+    var markerImage = new kakao.maps.MarkerImage(
+      'static/image/greenO.png',
+      new kakao.maps.Size(30, 30) // 마커 이미지 크기
+    );
+
+
     var marker = new kakao.maps.Marker({
       map: map,
       position: position.latlng,
+      image: markerImage
     });
+
+    var petCanTotal = position.content.count.pet + position.content.count.can; // 페트병과 캔 개수의 총합
+
+    // 마커에 총 개수를 표시할 커스텀 오버레이 생성
+    var customOverlay = document.createElement('div');
+    customOverlay.className = 'marker-overlay';
+    customOverlay.innerText = petCanTotal;
+
+    var overlay = new kakao.maps.CustomOverlay({
+      position: position.latlng,
+      content: customOverlay,
+      yAnchor: 1.1,
+    });
+
+    // 추가된 부분: overlay를 지도에 추가
+    overlay.setMap(map);
+
+    
+
+
 
     var infowindow = new kakao.maps.InfoWindow({
       content: createInfoWindowContent(
@@ -224,6 +292,8 @@ function createMarkers(map) {
 
     markers.push(marker); // 마커를 배열에 추가
     infowindows.push(infowindow); // 정보창을 배열에 추가
+    overlays.push(overlay); // 오버레이를 배열에 추가
+
   }
 }
 
@@ -231,19 +301,28 @@ function createInfoWindowContent(address, petCount, canCount) {
   var content =
     '<div class="info-window">' +
     '<div class="address">' +
-    address +
+    '<span style="font-weight:bold; font-size:16px;">' + address + '</span>' +
     '</div>' +
     '<div class="count">' +
-    '페트병 개수: <span id="petCount">' +
+    '페트병 : <span id="petCount" style="color:green; font-weight:bold;">' +
     petCount +
     '</span><br>' +
-    '캔 개수: <span id="canCount">' +
+    '캔 : <span id="canCount" style="color:green; font-weight:bold;">' +
     canCount +
     '</span>' +
+    '</div>' +
+    '<div class="more-info">' +
+    '<button onclick="showDetails()">자세히 보기</button>' +
     '</div>' +
     '</div>';
 
   return content;
 }
+
+
+
+
+
+
 
 initMap();
