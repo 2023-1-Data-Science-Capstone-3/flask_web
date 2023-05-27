@@ -271,6 +271,8 @@ function createMarkers(map) {
         position.content.count.pet,
         position.content.count.can
       ),
+      removable: true // 닫기 버튼 표시
+
     });
     
     kakao.maps.event.addListener(

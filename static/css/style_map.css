@@ -6,13 +6,11 @@
   }
   
 
-  .marker-content {
-    text-align: center;
-  }
+
 
 
   .marker-overlay {
-    font-size: 16px; /* 숫자의 크기 설정 */
+    font-size: 17px; /* 숫자의 크기 설정 */
     color: #ffffff; /* 숫자의 색상 설정 (여기서는 흰색으로 설정했습니다) */
   }
   
@@ -26,12 +24,7 @@
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
 }
 
-/* 주소 스타일 */
-.address {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 8px;
-}
+
 
 /* 모서리 색상 */
 .info-window::after {
