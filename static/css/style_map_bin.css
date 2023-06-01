@@ -9,7 +9,7 @@
 
 /* 인포 윈도우 스타일 */
 .info-window {
-  width: 200px; /* 인포 윈도우의 너비 조정 */
+  width: 280px; /* 인포 윈도우의 너비 조정 */
   padding: 10px;
   background-color: white;
   border-radius: 10px; /* 인포 윈도우의 모서리를 둥글게 설정 */
