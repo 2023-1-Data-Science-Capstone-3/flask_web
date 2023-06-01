@@ -321,10 +321,20 @@ function createInfoWindowContent(address, petCount, canCount) {
   return content;
 }
 
+function showDetails() {
+  // 팝업창에 표시할 이미지 경로
+  var imageUrl = 'static/image/ouput.png'; 
 
+  // 팝업창의 크기 및 위치
+  var popupWidth = 600;
+  var popupHeight = 400;
+  var popupX = Math.ceil((window.screen.width - popupWidth) / 2);
+  var popupY = Math.ceil((window.screen.height - popupHeight) / 2);
 
-
-
-
-
+  // 팝업창 열기
+  var popup = window.open('', 'popup', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + popupX + ',top=' + popupY);
+  
+  // 팝업창에 이미지 추가
+  popup.document.write('<img src="' + imageUrl + '" width="100%" height="100%" />');
+}
 initMap();
